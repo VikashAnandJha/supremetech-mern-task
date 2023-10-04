@@ -102,7 +102,25 @@ class User {
       callback(null, users);
     });
   }
+  static findByUsername(username, callback) {
+    const query = 'SELECT * FROM users WHERE username = ?';
+    const values = [username];
 
+    connection.query(query, values, (error, results) => {
+      if (error) {
+        return callback(error, null)
+      }
+
+      if (results.length === 0) {
+        return callback(null, null)
+      }
+
+      const user = results[0];
+      const foundUser = new User(user.id, user.name, user.username, user.password, user.join_date, user.department);
+
+      return callback(null, foundUser)
+    });
+  }
 
 }
 

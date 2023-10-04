@@ -1,25 +1,59 @@
 const User = require('../models/UserModel');
 const jwt = require('jsonwebtoken');
+const bcrypt = require("bcrypt")
 require('dotenv').config()
 const JWT_SECRET = process.env.JWT_SECRET
 // Controller function for user registration
-const registerUser = (req, res) => {
-    // Extract user data from the request body
-    const { username, password } = req.body;
 
-    // Your registration logic here, e.g., saving user to the database
+const registerUser = async (req, res) => {
+    const { name, username, password, department } = req.body;
+    const join_date = currentDate = new Date().toISOString().split('T')[0];
 
-    // Sample response for now
-    res.json({ message: 'User registered successfully' });
+    try {
+        // Check if the username is already taken
+        User.findByUsername(username, async (error, foundUser) => {
+
+            if (foundUser) {
+                return res.status(400).json({ message: 'Username is already taken' });
+            }
+            if (error) {
+                return res.status(500).json({ message: 'internal server error' });
+            }
+
+            // Hash the password before saving to the database
+            const hashedPassword = await bcrypt.hash(password, 10);
+
+            // Create a new User instance
+            const newUser = new User(null, name, username, hashedPassword, join_date, department);
+
+            // Save the user to the database
+            User.createUser(newUser, (error, savedUser) => {
+                if (error) {
+                    console.error('Error registering user:', error);
+                    return res.status(500).json({ message: 'Internal Server Error' });
+                }
+
+                // Generate a JWT token for the registered user
+                const token = jwt.sign({ userId: savedUser.id, username: savedUser.username }, JWT_SECRET, { expiresIn: '48h' });
+
+                res.status(201).json({ message: 'User registered successfully', token });
+            });
+        });
+
+    } catch (error) {
+        console.error('Error during user registration:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
 };
 
 // Controller function for user login 
-const loginUser = (req, res) => {
+const loginUser = async (req, res) => {
     const { username, password } = req.body;
     console.log(username)
 
+    const hashedPassword = await bcrypt.hash(password, 10);
     // Find the user by username
-    User.loginUser(username, password, (error, foundUser) => {
+    User.loginUser(username, hashedPassword, (error, foundUser) => {
         if (error) {
             console.error('Error finding user:', error);
             return res.status(500).json({ message: 'Internal Server Error' });

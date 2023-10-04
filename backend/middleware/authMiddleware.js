@@ -9,7 +9,7 @@ const authMiddleware = (req, res, next) => {
     }
 
     try {
-        const decoded = jwt.verify(token, JWT_SECRET); // Use the same secret key you used to sign the token
+        const decoded = jwt.verify(token, JWT_SECRET);
 
         req.username = decoded.username;
         //console.log("decoded", req.username)
