@@ -47,13 +47,11 @@ const registerUser = async (req, res) => {
 };
 
 // Controller function for user login 
-const loginUser = async (req, res) => {
+const loginUser = (req, res) => {
     const { username, password } = req.body;
-    console.log(username)
 
-    const hashedPassword = await bcrypt.hash(password, 10);
     // Find the user by username
-    User.loginUser(username, hashedPassword, (error, foundUser) => {
+    User.findByUsername(username, (error, foundUser) => {
         if (error) {
             console.error('Error finding user:', error);
             return res.status(500).json({ message: 'Internal Server Error' });
@@ -63,16 +61,29 @@ const loginUser = async (req, res) => {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
-        // Generate a JWT token
-        const token = jwt.sign(
-            { userId: foundUser.id, username: foundUser.username },
-            JWT_SECRET,
-            { expiresIn: '48h' }
-        );
+        // Compare the provided password with the stored hashed password
+        bcrypt.compare(password, foundUser.password, (compareError, isMatch) => {
+            if (compareError) {
+                console.error('Error comparing passwords:', compareError);
+                return res.status(500).json({ message: 'Internal Server Error' });
+            }
 
-        res.json({ message: 'User logged in successfully', token });
+            if (!isMatch) {
+                return res.status(401).json({ message: 'Invalid credentials' });
+            }
+
+            // Passwords match, generate a JWT token
+            const token = jwt.sign(
+                { userId: foundUser.id, username: foundUser.username },
+                JWT_SECRET,
+                { expiresIn: '48h' }
+            );
+
+            res.json({ message: 'User logged in successfully', token });
+        });
     });
 };
+
 
 
 
