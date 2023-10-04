@@ -44,7 +44,7 @@ const loginUser = (req, res) => {
 
 // Controller function for getting users with filters
 const getUsers = (req, res) => {
-    const { date, sorting, department } = req.query;
+    const { date, sorting, department, } = req.query;
 
     // Construct the filters object
     const filters = {
@@ -53,16 +53,21 @@ const getUsers = (req, res) => {
         department,
         // Add more filters as needed
     };
-
     // Call the static method getUsers from the User model
-    User.getUsers(filters, (error, users) => {
-        if (error) {
-            console.error('Error fetching users:', error);
-            return res.status(500).json({ message: 'Internal Server Error' });
-        }
+    try {
+        User.getUsers(filters, (error, users) => {
+            if (error) {
+                console.error('Error fetching users:', error);
+                return res.status(500).json({ message: 'Internal Server Error' });
+            }
 
-        res.json({ users });
-    });
+            res.json({ users });
+        });
+    } catch (err) {
+        return res.status(500).json({ message: 'Internal Server Error' });
+    }
+
+
 }
 
 module.exports = {
