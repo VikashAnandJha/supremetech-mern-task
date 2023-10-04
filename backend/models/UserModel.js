@@ -97,7 +97,7 @@ class User {
       }
 
 
-      const users = results.map(user => new User(user.id, user.name, user.username, user.password, user.join_date, user.department));
+      const users = results.map(user => new User(user.id, user.name, user.username, "###########", user.join_date, user.department));
 
       callback(null, users);
     });
