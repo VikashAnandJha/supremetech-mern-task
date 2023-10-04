@@ -55,12 +55,12 @@
 
 /**
  * @swagger
- * getUsers:
+ * /getUsers:
  *   get:
  *     summary: Get all users with filters
  *     description: Retrieve a list of all users with optional filters.
  *     security:
- *       - bearerAuth: []
+ *       - Bearer: []  # Use Bearer token for authentication
  *     parameters:
  *       - in: query
  *         name: date
@@ -80,7 +80,18 @@
  *     responses:
  *       '200':
  *         description: A successful response
- */
+ *
+ * components:
+ *   securitySchemes:
+ *     Bearer:
+ *       type: apiKey
+ *       name: Authorization
+ *       in: header
+ *       description: >-
+ *         Enter the token with the Bearer: prefix, e.g., "Bearer abcde12345".
+*/
+
+
 
 const express = require('express');
 const router = express.Router();
