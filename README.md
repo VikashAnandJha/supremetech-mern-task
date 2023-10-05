@@ -55,7 +55,7 @@ DB_NAME=mern_test
 JWT_SECRET=MySecretKeyWithNumbers123
 ``````
 
-### Note: import the sample mysql database given in root directory
+### Note: import the sample mysql database given in main project root directory
 
 
  
