@@ -11,7 +11,7 @@ const UserDashboard = () => {
     const filters = useSelector((state) => state.user.filters);
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [sortBy, setSortBy] = useState('');
-    const [filter, setFilter] = useState('');
+    const [filter, setFilter] = useState({ name: '', join_date: '', department: '' });
     const navigate = useNavigate();
     useEffect(() => {
         const fetchUsers = async () => {
@@ -21,10 +21,12 @@ const UserDashboard = () => {
                     navigate("/")
                     return;
                 }
-                console.log("tokenfound", token)
+                // console.log("tokenfound", token)
                 const response = await getUsers(filters, token);
                 console.log(response.data.users)
                 dispatch(setUsers(response.data.users));
+                setFilteredUsers(response.data.users)
+
             } catch (error) {
                 console.error('Failed to fetch users:', error);
             }
@@ -39,10 +41,11 @@ const UserDashboard = () => {
         // Redirect the user to the home page
         window.location.href = '/';
     };
-    const handleFilterChange = (event) => {
+    const handleNameFilterChange = (event) => {
         const searchTerm = event.target.value.toLowerCase();
-        setFilter(searchTerm);
+        setFilter({ ...filter, name: searchTerm });
 
+        console.log(filter);
         // Filter users based on the search term
         const filtered = users.filter((user) => user.name.toLowerCase().includes(searchTerm));
         setFilteredUsers(filtered);
@@ -71,9 +74,10 @@ const UserDashboard = () => {
             <h2>User Dashboard</h2>
             <button onClick={handleLogout}>Logout</button>
             <div>
-                <label htmlFor="filter">Filter by Name:</label>
-                <input type="text" id="filter" value={filter} onChange={handleFilterChange} />
+                <label htmlFor="filter"> Name:</label>
+                <input type="text" id="filter" value={filter.name} onChange={handleNameFilterChange} />
             </div>
+
             <div>
                 <label htmlFor="sort">Sort by:</label>
                 <select id="sort" value={sortBy} onChange={handleSortChange}>
@@ -83,7 +87,7 @@ const UserDashboard = () => {
                 </select>
             </div>
             <ul>
-                {users?.map((user) => (
+                {filteredUsers?.map((user) => (
                     <li key={user.id}>
                         {user.name} - {user.join_date}
                     </li>
