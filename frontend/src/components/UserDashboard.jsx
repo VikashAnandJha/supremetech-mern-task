@@ -11,7 +11,7 @@ const UserDashboard = () => {
     const filters = useSelector((state) => state.user.filters);
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [sortBy, setSortBy] = useState('');
-    const [filter, setFilter] = useState({ name: '', join_date: '', department: '' });
+    const [filter, setFilter] = useState({ name: '', join_date: '', department: '', sortBy: '' });
     const navigate = useNavigate();
     useEffect(() => {
         const fetchUsers = async () => {
@@ -66,20 +66,15 @@ const UserDashboard = () => {
     };
 
     const handleSortChange = (event) => {
-        const selectedSort = event.target.value;
-        setSortBy(selectedSort);
 
-        // Sort the filtered users based on the selected criteria
-        const sorted = [...filteredUsers].sort((a, b) => {
-            if (selectedSort === 'name') {
-                return a.name.localeCompare(b.name);
-            } else if (selectedSort === 'join_date') {
-                return new Date(a.join_date) - new Date(b.join_date);
-            }
-            return 0;
-        });
 
-        setFilteredUsers(sorted);
+        const searchTerm = event.target.value.toLowerCase();
+        dispatch(setFilters({ ...filters, sortBy: searchTerm }))
+
+
+
+        if (searchTerm == "")
+            setFilteredUsers(users);
     };
 
 
@@ -125,7 +120,7 @@ const UserDashboard = () => {
 
             <div>
                 <label htmlFor="sort">Sort by:</label>
-                <select id="sort" value={sortBy} onChange={handleSortChange}>
+                <select id="sort" value={filters.sortBy} onChange={handleSortChange}>
                     <option value="">Select</option>
                     <option value="name">Name</option>
                     <option value="join_date">Join Date</option>

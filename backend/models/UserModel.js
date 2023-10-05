@@ -69,7 +69,7 @@ class User {
 
 
   static getUsers(filters, callback) {
-    const { join_date, sorting, department } = filters;
+    const { join_date, sortBy, department } = filters;
 
     // Building the sql query
     let query = 'SELECT * FROM users WHERE 1';
@@ -88,8 +88,8 @@ class User {
 
 
     // Add sorting
-    if (sorting) {
-      query += ` ORDER BY ${sorting}`;
+    if (sortBy) {
+      query += ` ORDER BY ${sortBy}`;
     }
     console.log(query)
     connection.query(query, values, (error, results) => {
