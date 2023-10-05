@@ -1,16 +1,24 @@
-import React from 'react';
+// RegistrationForm.js
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { registerUser } from '../actions/userActions';
+import { register } from '../services/api';
+import { setUser } from '../features/auth/authSlice';
 
 const RegistrationForm = () => {
     const dispatch = useDispatch();
+    const [userData, setUserData] = useState({ username: '', password: '' });
 
-    const handleRegistration = (userData) => {
-        dispatch(registerUser(userData));
+    const handleRegistration = async () => {
+        try {
+            const response = await register(userData);
+            dispatch(setUser(response.data));
+        } catch (error) {
+            console.error('Registration failed:', error);
+        }
     };
 
     return (
-        <>Reg form</>
+        <div>RegForm</div>
     );
 };
 

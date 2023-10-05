@@ -1,6 +1,7 @@
+// Filters.js
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { applyFilters } from '../actions/userActions';
+import { setFilters } from '../features/user/userSlice';
 
 const Filters = () => {
     const dispatch = useDispatch();
@@ -8,13 +9,13 @@ const Filters = () => {
     const [sorting, setSorting] = useState('');
     const [department, setDepartment] = useState('');
 
-    const handleApplyFilters = () => {
+    const applyFilters = () => {
         const filters = { date, sorting, department };
-        dispatch(applyFilters(filters));
+        dispatch(setFilters(filters));
     };
 
     return (
-        <div>Filter</div>
+        <div>filters</div>
     );
 };
 
