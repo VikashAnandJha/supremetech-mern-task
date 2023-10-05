@@ -85,8 +85,16 @@ const UserDashboard = () => {
 
     return (
         <div>
-            <h2>User Dashboard</h2>
-            <button onClick={handleLogout}>Logout</button>
+            <div className="flex justify-between items-center p-4 bg-blue-500 text-white">
+                <h2 className="text-lg font-semibold">User Dashboard</h2>
+                <div className="flex space-x-4">
+                    <button className="hover:underline">Home</button>
+                    <button onClick={handleLogout} className="hover:underline">
+                        Logout
+                    </button>
+                </div>
+            </div>
+
             <div className="bg-gray-100 p-4 rounded-md">
                 <p className="text-lg font-bold mb-2">Apply Filters:</p>
                 <div className="flex items-center space-x-4">
