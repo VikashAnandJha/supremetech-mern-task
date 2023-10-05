@@ -57,7 +57,7 @@ This is a full-stack application with a React frontend and Node.js/Express.js ba
 
 ## Setup Environment Variables
 
-Create a `.env` file in the root of backend directory with the following contents:
+Create a `.env` file in the root of backend directory with the following contents(change suitable fields):
 
 ```plaintext
 DB_HOST=localhost
