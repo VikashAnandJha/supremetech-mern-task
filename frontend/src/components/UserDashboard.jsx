@@ -87,17 +87,32 @@ const UserDashboard = () => {
         <div>
             <h2>User Dashboard</h2>
             <button onClick={handleLogout}>Logout</button>
-            <div>
-                Apply Filters:
-                <div>
-                    <label htmlFor="filter"> DepartMent:</label>
-                    <input type="text" id="filter" value={filters.department} onChange={handleDeptNameFilterChange} />
-                </div>
-                <div>
-                    <label htmlFor="filterjd"> join_date:</label>
-                    <input type="date" id="filterjd" value={filters.join_date} onChange={handleJoinDateFilterChange} />
+            <div className="bg-gray-100 p-4 rounded-md">
+                <p className="text-lg font-bold mb-2">Apply Filters:</p>
+                <div className="flex items-center space-x-4">
+                    <div className="flex items-center">
+                        <label htmlFor="filter" className="mr-2">Department:</label>
+                        <input
+                            type="text"
+                            id="filter"
+                            className="border rounded-md p-2 focus:outline-none focus:border-blue-500"
+                            value={filters.department}
+                            onChange={handleDeptNameFilterChange}
+                        />
+                    </div>
+                    <div className="flex items-center">
+                        <label htmlFor="filterjd" className="mr-2">Join Date:</label>
+                        <input
+                            type="date"
+                            id="filterjd"
+                            className="border rounded-md p-2 focus:outline-none focus:border-blue-500"
+                            value={filters.join_date}
+                            onChange={handleJoinDateFilterChange}
+                        />
+                    </div>
                 </div>
             </div>
+
 
 
             <div>
