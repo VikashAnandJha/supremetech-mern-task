@@ -91,11 +91,11 @@ const loginUser = (req, res) => {
 
 // Controller function for getting users with filters
 const getUsers = (req, res) => {
-    const { date, sorting, department, } = req.query;
+    const { join_date, sorting, department, } = req.query;
 
     // Construct the filters object
     const filters = {
-        date,
+        join_date,
         sorting,
         department,
         // Add more filters as needed

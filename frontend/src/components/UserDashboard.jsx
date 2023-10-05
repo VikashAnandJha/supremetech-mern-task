@@ -53,6 +53,17 @@ const UserDashboard = () => {
         if (searchTerm == "")
             setFilteredUsers(users);
     };
+    const handleJoinDateFilterChange = (event) => {
+        const searchTerm = event.target.value.toLowerCase();
+        dispatch(setFilters({ ...filter, join_date: searchTerm }))
+
+        //console.log(filter);
+        // Filter users based on the search term
+        const filtered = users.filter((user) => user.join_date.toLowerCase().includes(searchTerm));
+        setFilteredUsers(filtered);
+        if (searchTerm == "")
+            setFilteredUsers(users);
+    };
 
     const handleSortChange = (event) => {
         const selectedSort = event.target.value;
@@ -77,9 +88,17 @@ const UserDashboard = () => {
             <h2>User Dashboard</h2>
             <button onClick={handleLogout}>Logout</button>
             <div>
-                <label htmlFor="filter"> DepartMent:</label>
-                <input type="text" id="filter" value={filters.department} onChange={handleDeptNameFilterChange} />
+                Apply Filters:
+                <div>
+                    <label htmlFor="filter"> DepartMent:</label>
+                    <input type="text" id="filter" value={filters.department} onChange={handleDeptNameFilterChange} />
+                </div>
+                <div>
+                    <label htmlFor="filterjd"> join_date:</label>
+                    <input type="date" id="filterjd" value={filters.join_date} onChange={handleJoinDateFilterChange} />
+                </div>
             </div>
+
 
             <div>
                 <label htmlFor="sort">Sort by:</label>
