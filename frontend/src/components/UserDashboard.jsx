@@ -2,16 +2,19 @@ import React, { useEffect, useState, } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUsers } from '../services/api';
 import { setFilters, setUsers } from '../features/user/userSlice';
+import { setUser } from '../features/auth/authSlice';
+
 
 import { Link, useNavigate } from "react-router-dom";
 
 const UserDashboard = () => {
     const dispatch = useDispatch();
+    const userDetails = useSelector((state) => state.auth);
     const users = useSelector((state) => state.user.users);
     const filters = useSelector((state) => state.user.filters);
-    const [filteredUsers, setFilteredUsers] = useState([]);
-    const [sortBy, setSortBy] = useState('');
-    const [filter, setFilter] = useState({ name: '', join_date: '', department: '', sortBy: '' });
+    // const [filteredUsers, setFilteredUsers] = useState([]);
+    // const [sortBy, setSortBy] = useState('');
+    // const [filter, setFilter] = useState({ name: '', join_date: '', department: '', sortBy: '' });
     const navigate = useNavigate();
     useEffect(() => {
         const fetchUsers = async () => {
@@ -82,15 +85,17 @@ const UserDashboard = () => {
         <div>
             <div className="flex justify-between items-center p-4 bg-blue-500 text-white">
                 <h2 className="text-lg font-semibold">User Dashboard</h2>
+
                 <div className="flex space-x-4">
                     <button className="hover:underline">Home</button>
                     <button onClick={handleLogout} className="hover:underline">
-                        Logout
+                        (  <span>{userDetails?.user?.username}</span>) Logout
                     </button>
                 </div>
             </div>
 
-            <div className="bg-gray-100 p-4 rounded-md">
+
+            <div className="bg-gray-100 p-4 rounded-md"  >
                 <p className="text-lg font-bold mb-2">Apply Filters:</p>
                 <div className="flex items-center space-x-4">
                     <div className="flex items-center">
