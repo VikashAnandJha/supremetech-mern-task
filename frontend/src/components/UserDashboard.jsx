@@ -44,7 +44,7 @@ const UserDashboard = () => {
     const handleDeptNameFilterChange = (event) => {
         const searchTerm = event.target.value.toLowerCase();
         // setFilter({ ...filter, department: searchTerm });
-        dispatch(setFilters({ ...filter, department: searchTerm }))
+        dispatch(setFilters({ ...filters, department: searchTerm }))
 
         //console.log(filter);
         // Filter users based on the search term
@@ -55,7 +55,7 @@ const UserDashboard = () => {
     };
     const handleJoinDateFilterChange = (event) => {
         const searchTerm = event.target.value.toLowerCase();
-        dispatch(setFilters({ ...filter, join_date: searchTerm }))
+        dispatch(setFilters({ ...filters, join_date: searchTerm }))
 
         //console.log(filter);
         // Filter users based on the search term
