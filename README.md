@@ -43,18 +43,6 @@ This is a full-stack application with a React frontend and Node.js/Express.js ba
 
 ## How to Run the App:
 
-### Frontend:
-
-1. Navigate to the `frontend` directory.
-2. Run `npm install` to install dependencies.
-3. Run `npm start` to start the React app.
-
-### Backend:
-
-1. Navigate to the `backend` directory.
-2. Run `npm install` to install dependencies.
-3. Run `npm start` to start the Node.js server.
-
 ## Setup Environment Variables
 
 Create a `.env` file in the root of backend directory with the following contents(change suitable fields):
@@ -71,3 +59,15 @@ JWT_SECRET=MySecretKeyWithNumbers123
 
 
  
+### Frontend:
+
+1. Navigate to the `frontend` directory.
+2. Run `npm install` to install dependencies.
+3. Run `npm start` to start the React app.
+
+### Backend:
+
+1. Navigate to the `backend` directory.
+2. Run `npm install` to install dependencies.
+3. Run `npm start` to start the Node.js server.
+
