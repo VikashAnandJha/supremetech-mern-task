@@ -1,7 +1,7 @@
 import React, { useEffect, useState, } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUsers } from '../services/api';
-import { setUsers } from '../features/user/userSlice';
+import { setFilters, setUsers } from '../features/user/userSlice';
 
 import { Link, useNavigate } from "react-router-dom";
 
@@ -21,11 +21,11 @@ const UserDashboard = () => {
                     navigate("/")
                     return;
                 }
-                // console.log("tokenfound", token)
+                console.log("filter", filters)
                 const response = await getUsers(filters, token);
                 console.log(response.data.users)
                 dispatch(setUsers(response.data.users));
-                setFilteredUsers(response.data.users)
+                //  setFilteredUsers(response.data.users)
 
             } catch (error) {
                 console.error('Failed to fetch users:', error);
@@ -41,14 +41,17 @@ const UserDashboard = () => {
         // Redirect the user to the home page
         window.location.href = '/';
     };
-    const handleNameFilterChange = (event) => {
+    const handleDeptNameFilterChange = (event) => {
         const searchTerm = event.target.value.toLowerCase();
-        setFilter({ ...filter, name: searchTerm });
+        // setFilter({ ...filter, department: searchTerm });
+        dispatch(setFilters({ ...filter, department: searchTerm }))
 
-        console.log(filter);
+        //console.log(filter);
         // Filter users based on the search term
-        const filtered = users.filter((user) => user.name.toLowerCase().includes(searchTerm));
+        const filtered = users.filter((user) => user.department.toLowerCase().includes(searchTerm));
         setFilteredUsers(filtered);
+        if (searchTerm == "")
+            setFilteredUsers(users);
     };
 
     const handleSortChange = (event) => {
@@ -74,8 +77,8 @@ const UserDashboard = () => {
             <h2>User Dashboard</h2>
             <button onClick={handleLogout}>Logout</button>
             <div>
-                <label htmlFor="filter"> Name:</label>
-                <input type="text" id="filter" value={filter.name} onChange={handleNameFilterChange} />
+                <label htmlFor="filter"> DepartMent:</label>
+                <input type="text" id="filter" value={filters.department} onChange={handleDeptNameFilterChange} />
             </div>
 
             <div>
@@ -86,13 +89,37 @@ const UserDashboard = () => {
                     <option value="join_date">Join Date</option>
                 </select>
             </div>
-            <ul>
-                {filteredUsers?.map((user) => (
-                    <li key={user.id}>
-                        {user.name} - {user.join_date}
-                    </li>
-                ))}
-            </ul>
+            <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                    <tr>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Name
+                        </th>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Department
+                        </th>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Join Date
+                        </th>
+                    </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                    {users?.map((user) => (
+                        <tr key={user.id}>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="text-sm font-medium text-gray-900">{user.name}</div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="text-sm text-gray-500">{user.department}</div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="text-sm text-gray-500">{user.join_date}</div>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+
         </div>
     );
 };

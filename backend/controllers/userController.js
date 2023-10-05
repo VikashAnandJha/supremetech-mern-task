@@ -100,6 +100,7 @@ const getUsers = (req, res) => {
         department,
         // Add more filters as needed
     };
+    console.log(filters)
     // Call the static method getUsers from the User model
     try {
         User.getUsers(filters, (error, users) => {
@@ -107,6 +108,7 @@ const getUsers = (req, res) => {
                 console.error('Error fetching users:', error);
                 return res.status(500).json({ message: 'Internal Server Error' });
             }
+
 
             res.json({ users });
         });
@@ -116,6 +118,11 @@ const getUsers = (req, res) => {
 
 
 }
+// Function to format the date to a human-readable format
+const formatHumanDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString('en-US', options);
+};
 
 module.exports = {
     registerUser,
