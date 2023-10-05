@@ -66,5 +66,7 @@ DB_PASSWORD=
 DB_NAME=mern_test
 JWT_SECRET=MySecretKeyWithNumbers123
 
+## import the sample mysql database given in root directory
+
 
  
