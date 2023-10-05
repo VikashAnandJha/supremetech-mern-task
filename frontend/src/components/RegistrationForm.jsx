@@ -4,7 +4,10 @@ import { useDispatch } from 'react-redux';
 import { register } from '../services/api';
 import { setUser } from '../features/auth/authSlice';
 
+import { useNavigate } from "react-router-dom";
+
 const RegistrationForm = () => {
+    const navigate = useNavigate()
     const dispatch = useDispatch();
     const [userData, setUserData] = useState({
         name: '',
@@ -18,6 +21,8 @@ const RegistrationForm = () => {
             const response = await register(userData);
             dispatch(setUser(response.data.user));
             console.log(response.data.user)
+            localStorage.setItem("token", response.data.token)
+            navigate("/dashboard")
         } catch (error) {
             alert(error.response.data.message)
             console.error('Registration failed:', error);
