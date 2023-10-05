@@ -17,7 +17,8 @@ const LoginForm = () => {
         try {
             const response = await login(credentials);
             console.log(response.data)
-            dispatch(setUser(response.data));
+            dispatch(setUser(response.data.user));
+            console.log(response.data.user)
             navigate("/dashboard");
         } catch (error) {
             console.error('Login failed:', error);

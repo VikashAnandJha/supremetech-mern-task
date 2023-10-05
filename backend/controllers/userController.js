@@ -33,10 +33,11 @@ const registerUser = async (req, res) => {
                     return res.status(500).json({ message: 'Internal Server Error' });
                 }
 
+                let user = { userId: savedUser.id, username: savedUser.username }
                 // Generate a JWT token for the registered user
-                const token = jwt.sign({ userId: savedUser.id, username: savedUser.username }, JWT_SECRET, { expiresIn: '48h' });
+                const token = jwt.sign(user, JWT_SECRET, { expiresIn: '48h' });
 
-                res.status(201).json({ message: 'User registered successfully', token });
+                res.status(201).json({ message: 'User registered successfully', token, user });
             });
         });
 
@@ -72,14 +73,15 @@ const loginUser = (req, res) => {
                 return res.status(401).json({ message: 'Invalid credentials' });
             }
 
+            let user = { userId: foundUser.id, username: foundUser.username }
             // Passwords match, generate a JWT token
             const token = jwt.sign(
-                { userId: foundUser.id, username: foundUser.username },
+                user,
                 JWT_SECRET,
                 { expiresIn: '48h' }
             );
 
-            res.json({ message: 'User logged in successfully', token });
+            res.json({ message: 'User logged in successfully', token, user });
         });
     });
 };

@@ -16,8 +16,8 @@ const RegistrationForm = () => {
         e.preventDefault()
         try {
             const response = await register(userData);
-            dispatch(setUser(response.data));
-            console.log(response.data.token)
+            dispatch(setUser(response.data.user));
+            console.log(response.data.user)
         } catch (error) {
             alert(error.response.data.message)
             console.error('Registration failed:', error);
