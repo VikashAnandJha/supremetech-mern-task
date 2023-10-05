@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { login } from '../services/api';
 import { setUser } from '../features/auth/authSlice';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
     const dispatch = useDispatch();
@@ -29,6 +29,7 @@ const LoginForm = () => {
         <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md w-full space-y-8">
                 <div>
+                    <Link to={'/'}>back to home</Link>
                     <h1 className="mt-6 text-center text-4xl font-extrabold text-gray-900">Supreme Technologies</h1>
                     <h2 className="mt-6 text-center text-2xl font-extrabold text-gray-900">
                         Sign in to your account
@@ -45,7 +46,7 @@ const LoginForm = () => {
                             id="username"
                             name="username"
                             type="text"
-                            autoComplete="username"
+
                             required
                             className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                             placeholder="Username"
