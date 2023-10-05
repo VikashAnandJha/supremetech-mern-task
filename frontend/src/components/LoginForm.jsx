@@ -16,7 +16,8 @@ const LoginForm = () => {
 
         try {
             const response = await login(credentials);
-            console.log(response.data)
+            // console.log(response.data.token)
+            localStorage.setItem("token", response.data.token)
             dispatch(setUser(response.data.user));
             console.log(response.data.user)
             navigate("/dashboard");
